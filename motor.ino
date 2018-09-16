@@ -1,19 +1,25 @@
 #include "MotorClass.h"
 
-#define FORWARD_R 1
-#define BACK_R 2
-#define FORWARD_L 3
-#define BACK_L 4
+#define right1 1
+#define right2 2
+#define left1 3
+#define left2 4
+
+#define rightspeed 5
+#define leftspeed 6
+//3,5,6,9,10,11
 
 MotorController x;
 
 int time = 0; 
 
 void setup(){
-  pinMode(FORWARD_R, OUTPUT);
-  pinMode(BACK_R, OUTPUT);
-  pinMode(FORWARD_L, OUTPUT);
-  pinMode(BACK_L, OUTPUT);
+  pinMode(right1, OUTPUT);
+  pinMode(right2, OUTPUT);
+  pinMode(left1, OUTPUT);
+  pinMode(left2, OUTPUT);
+
+  x.init(right1, right2, left1, left2, rightspeed, leftspeed);
 }
 
 void loop(){
@@ -25,14 +31,15 @@ void loop(){
     x.right();
   }
   else if (time < 15){
-    x.back()
+    x.back();
   }
   else if (time < 20){
     x.left();
   }
-  else
-    time = 0;
-
+  else{
+    x.stop();
+  }
+  
   delay(1000);
   time++;
 }

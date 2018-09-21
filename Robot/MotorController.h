@@ -5,21 +5,16 @@ class MotorController{
 	public:
     MotorController();
     
-    void init(int r1, int l1, int r2, int l2, int rs, int ls);
+    void init(int R1, int R2, int L1, int L2);
 
-    void spin(int right, int left);
+    void spin(float right, float left);
     
 	private:
-
-    void setVel(int rsvalue, int lsvalue);
   
     int Rpin1;
     int Rpin2;
     int Lpin1;
     int Lpin2;
-
-    int Rspeed;
-    int Lspeed;
 };
 
 #endif

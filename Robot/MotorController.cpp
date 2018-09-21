@@ -6,74 +6,55 @@
 MotorController::MotorController(){
 }
 
-void MotorController::spin(int right, int left){
+void MotorController::spin(float right, float left){
   if (right > 0 && left > 0){
-    digitalWrite(Rpin1, HIGH);
-    digitalWrite(Rpin2, LOW);
-  
-    digitalWrite(Lpin1, HIGH);
-    digitalWrite(Lpin2, LOW);
-    
-    setVel(right, left);
+    digitalWrite(Rpin1, right * 255);
+    digitalWrite(Rpin2, 0);
+
+    analogWrite(Lpin1, left * 255);
+    analogWrite(Lpin2, 0);
   }
   
   if (right == 0 && left == 0){
-    digitalWrite(Rpin1, LOW);
-    digitalWrite(Rpin2, LOW);
+    digitalWrite(Rpin1, 0);
+    digitalWrite(Rpin2, 0);
   
-    digitalWrite(Lpin1, LOW);
-    digitalWrite(Lpin2, LOW);
-    
-    setVel(0, 0);
+    digitalWrite(Lpin1, 0);
+    digitalWrite(Lpin2, 0);
   }
   
   if (right < 0 && left < 0){
-    digitalWrite(Rpin1, LOW);
-    digitalWrite(Rpin2, HIGH);
+    digitalWrite(Rpin1, 0);
+    digitalWrite(Rpin2, right * 255);
 
-    digitalWrite(Lpin1, LOW);
-    digitalWrite(Lpin2, HIGH);
-    
-    setVel(abs(right), abs(left));
-  }
-  
-  if (right < 0 && left < 0){
-    digitalWrite(Rpin1, LOW);
-    digitalWrite(Rpin2, HIGH);
-
-    digitalWrite(Lpin1, HIGH);
-    digitalWrite(Lpin2, LOW);
-    
-    setVel(abs(right), left);
+    digitalWrite(Lpin1, 0);
+    digitalWrite(Lpin2, right * 255);
   }
   
   if (right > 0 && left < 0){
-    digitalWrite(Rpin1, HIGH);
-    digitalWrite(Rpin2, LOW);
+    digitalWrite(Rpin1, right * 255);
+    digitalWrite(Rpin2, 0);
 
-    digitalWrite(Lpin1, LOW);
-    digitalWrite(Lpin2, HIGH);
-    
-    setVel(right, abs(left));
+    digitalWrite(Lpin1, 0);
+    digitalWrite(Lpin2, left * 255);
+  }
+  
+  if (right > 0 && left < 0){
+    digitalWrite(Rpin1, right * 255);
+    digitalWrite(Rpin2, 0);
+
+    digitalWrite(Lpin1, left * 255);
+    digitalWrite(Lpin2, 0);
   }
 }
 
-void MotorController::setVel(int rspeedvalue, int lspeedvalue){
-  analogWrite(Rspeed, rspeedvalue);
-  analogWrite(Lspeed, lspeedvalue);
-}
-
-void MotorController::init(int r1, int l1, int r2, int l2, int rs, int ls){
-	this->Rpin1 = r1;
-    pinMode(r1, OUTPUT);
-	this->Rpin2 = r2;
-    pinMode(r2, OUTPUT);
-	this->Lpin1 = l1;
-    pinMode(l1, OUTPUT);
-	this->Lpin2 = l2;
-    pinMode(l2, OUTPUT);
-  this->Rspeed = rs;
-    pinMode(rs, OUTPUT);
-  this->Lspeed = ls;
-    pinMode(ls, OUTPUT);
+void MotorController::init(int R1, int R2, int L1, int L2){
+	this->Rpin1 = R1;
+    pinMode(Rpin1, OUTPUT);
+	this->Rpin2 = R2;
+    pinMode(Rpin2, OUTPUT);
+	this->Lpin1 = L1;
+    pinMode(Lpin1, OUTPUT);
+	this->Lpin2 = L2;
+    pinMode(Lpin2, OUTPUT);
 }

@@ -8,6 +8,14 @@
 #define TEST_US 1
 #define TEST_MOTOR 2
 
+//Ultrasonic Sensor pins
+#define frontInput 15;
+#define frontOutput 11;
+#define rightInput 10;
+#define rightOutput 7;
+#define leftInput 5;
+#define leftOutput 2;
+
 const int build_type = TEST_US;
 
 bool headOut;
@@ -21,10 +29,10 @@ UltrasonicSensor left;
 void setup() {
   // put your setup code here, to run once:
   
-  wheels.init(1, 2, 3, 4, 5, 6);
-  front.init(7, 8); //is it actually okay to number like that?
-  right.init(9, 10);
-  left.init(11, 12);
+  wheels.init(14, 13, 12, 9);
+  front.init(11, 15);
+  right.init(8, 10);
+  left.init(5, 6);
 
   pinMode(HEAD, INPUT);
   pinMode(TAIL, INPUT);
@@ -32,11 +40,19 @@ void setup() {
   tailOut = false;
 }
 
-bool headOut(){
+bool checkBounds(){
   if (digitalRead(HEAD) == HIGH){
-    head
+    headOut = true;
   }
-  
+  else{
+    headOut = false;
+  }
+  if (digitalRead(TAIL) == HIGH){
+    tailOut = true;
+  }
+  else{
+    tailOut = false;
+  }
 }
 
 void loop() {
@@ -45,7 +61,8 @@ void loop() {
   if (build_type == TEST_US){
     
   }
-  else{
+  
+  /*else{
 
     if (left.getcmDistance() < 10 || right.getcmDistance() < 10){
       wheels.spin(255, 255);
@@ -56,8 +73,9 @@ void loop() {
 
   
   }
+ */
 }
 
 bool escape(){
-  wheels.
+  return false;
 }

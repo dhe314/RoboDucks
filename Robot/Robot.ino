@@ -1,11 +1,17 @@
 #include "MotorController.h"
 #include "UltrasonicSensor.h"
 
-#define FRONT 13
-#define BACK 14
+#define HEAD 13
+#define TAIL 14
 
-bool frontOpen;
-bool backOpen;
+#define RELEASE 0
+#define TEST_US 1
+#define TEST_MOTOR 2
+
+const int build_type = TEST_US;
+
+bool headOut;
+bool tailOut;
 
 MotorController wheels;
 UltrasonicSensor front;
@@ -20,11 +26,38 @@ void setup() {
   right.init(9, 10);
   left.init(11, 12);
 
-  frontOpen = false;
-  backOpen = false;
+  pinMode(HEAD, INPUT);
+  pinMode(TAIL, INPUT);
+  headOut = false;
+  tailOut = false;
+}
+
+bool headOut(){
+  if (digitalRead(HEAD) == HIGH){
+    head
+  }
+  
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+
+  if (build_type == TEST_US){
+    
+  }
+  else{
+
+    if (left.getcmDistance() < 10 || right.getcmDistance() < 10){
+      wheels.spin(255, 255);
+      wheels.spin(255, 255);
+    }
+
+    if (
+
   
+  }
+}
+
+bool escape(){
+  wheels.
 }

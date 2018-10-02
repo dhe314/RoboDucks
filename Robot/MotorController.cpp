@@ -7,45 +7,27 @@ MotorController::MotorController(){
 }
 
 void MotorController::spin(float right, float left){
-  if (right > 0 && left > 0){
-    digitalWrite(Rpin1, right * 255);
-    digitalWrite(Rpin2, 0);
+//will it always be 1-2?
 
-    analogWrite(Lpin1, left * 255);
-    analogWrite(Lpin2, 0);
-  }
-  
-  if (right == 0 && left == 0){
-    digitalWrite(Rpin1, 0);
-    digitalWrite(Rpin2, 0);
-  
-    digitalWrite(Lpin1, 0);
-    digitalWrite(Lpin2, 0);
-  }
-  
-  if (right < 0 && left < 0){
-    digitalWrite(Rpin1, 0);
-    digitalWrite(Rpin2, right * 255);
+    if (right >= 0){
+      analogWrite(Rpin1, right * 255);
+      analogWrite(Rpin2, 0);
+    }
 
-    digitalWrite(Lpin1, 0);
-    digitalWrite(Lpin2, right * 255);
-  }
-  
-  if (right > 0 && left < 0){
-    digitalWrite(Rpin1, right * 255);
-    digitalWrite(Rpin2, 0);
+    else if (right < 0){
+      analogWrite(Rpin1, 0);
+      analogWrite(Rpin2, abs(right) * 255);
+    }
 
-    digitalWrite(Lpin1, 0);
-    digitalWrite(Lpin2, left * 255);
-  }
-  
-  if (right > 0 && left < 0){
-    digitalWrite(Rpin1, right * 255);
-    digitalWrite(Rpin2, 0);
+    if (left >= 0){
+      analogWrite(Lpin1, left * 255);
+      analogWrite(Lpin2, 0);
+    }
 
-    digitalWrite(Lpin1, left * 255);
-    digitalWrite(Lpin2, 0);
-  }
+    else if (left < 0){
+      analogWrite(Lpin1, 0);
+      analogWrite(Lpin2, abs(left) * 255);
+    }
 }
 
 void MotorController::init(int R1, int R2, int L1, int L2){

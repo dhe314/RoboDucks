@@ -9,8 +9,7 @@ class MotorController{
 
     void spin(float right, float left);
     
-	private:
-  
+	private:  
     int Rpin1;
     int Rpin2;
     int Lpin1;

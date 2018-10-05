@@ -8,6 +8,8 @@ MotorController::MotorController(){
 
 void MotorController::spin(float right, float left){
 //will it always be 1-2?
+    rightVel = right;
+    leftVel = left;
 
     if (right >= 0){
       analogWrite(Rpin1, right * 255);
@@ -20,14 +22,22 @@ void MotorController::spin(float right, float left){
     }
 
     if (left >= 0){
-      analogWrite(Lpin1, left * 255);
-      analogWrite(Lpin2, 0);
+      analogWrite(Lpin1, 0);
+      analogWrite(Lpin2, left * 255);
     }
 
     else if (left < 0){
-      analogWrite(Lpin1, 0);
-      analogWrite(Lpin2, abs(left) * 255);
+      analogWrite(Lpin1, abs(left)*255);
+      analogWrite(Lpin2, 0);
     }
+}
+
+float MotorController::getRSpin(){
+  return rightVel;
+}
+
+float MotorController::getLSpin(){
+  return leftVel;
 }
 
 void MotorController::init(int R1, int R2, int L1, int L2){

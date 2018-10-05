@@ -30,7 +30,10 @@ bool frontL;
 bool backR;
 bool backL;
 
-const int build_type = TEST_SWITCHES;
+bool forward;
+bool backward;
+
+const int build_type = RELEASE;
 
 void setup() {
   // put your setup code here, to run once:
@@ -50,7 +53,11 @@ void setup() {
   backR = false;
   backL = false;
 
+  forward = false;
+  backward = false;
+
   Serial.begin(9600);
+
 }
 
 void testUS(){
@@ -64,10 +71,7 @@ void testUS(){
 }
 
 void testMotor(){
-  wheels.spin(-1, -1);
-  delay(2000);
   wheels.spin(1, 1);
-  delay(2000);
 }
 
 void testSwitches(){
@@ -88,15 +92,41 @@ void testSwitches(){
 }
 
 bool checkBounds(){
-  //when the switch isn't pressed the circuit is closed
-  //when the switch is pressed it's HIGH???
-  //false is supposed to mean you're out
+  //false means you're out
   frontR = (digitalRead(FRONT_R) == 0);
   frontL = (digitalRead(FRONT_L) == 0);
   backR = (digitalRead(BACK_R) == 0);
   backL = (digitalRead(BACK_L) == 0);
   return (frontR && frontL && backR && backL);
 }
+
+void stayIn(){
+      if (!frontR && !frontL){
+        wheels.spin(-1, -1);
+        delay(500);
+      }
+      else if (!backR && !backL){
+        wheels.spin(1, 1);
+        delay(500);
+      }
+      else if (!frontR){
+        wheels.spin(-1, -0.5);
+        delay(500);
+      }
+      else if (!frontL){
+        wheels.spin(-0.5, -1);
+      }
+      else if (!backR){
+        wheels.spin(1, 0.5);
+        delay(500);
+      }
+      else if (!backL){
+        wheels.spin(0.5, 1);
+        delay(500);
+      }
+      return;
+}
+
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -110,21 +140,42 @@ void loop() {
   if (build_type == TEST_MOTOR){
     testMotor();
   }
-  
-  else{
+  if (build_type == RELEASE){
 
-    if (checkBounds()==true){
-      if (!frontR){
-        wheels.spin(-1, -1);
-      }
-      if (!backR){
-        wheels.spin(1, 1);
+
+  //are we falling out? if so, back up
+    if (checkBounds() == false){
+      stayIn();
+    }
+/*  
+  //if the other robot is getting uncomfortably close from the sides we move
+    else if (left.getcmDistance() < 7 || right.getcmDistance() < 7){
+      wheels.spin(1, 1);
+      delay(500);
+    }
+*/
+    else{
+      wheels.spin(1,-1);
+      //if (front.getcmDistance() < 10){
+        //wheels.spin(1,1);
       }
     }
 
-    if (left.getcmDistance() < 10 || right.getcmDistance() < 10){
-      wheels.spin(1, 1);
-      wheels.spin(1, 1);
-    }
+/*
+    Serial.print("front: ");
+    Serial.println(front.getcmDistance());
+    Serial.print("right: ");
+    Serial.println(right.getcmDistance());
+    Serial.print("left: ");
+    Serial.println(left.getcmDistance());
+*/
+
+    Serial.print("Front right: ");
+    Serial.println(frontR);
+    Serial.print("Front left: ");
+    Serial.println(frontL);
+    Serial.print("Back right: ");
+    Serial.println(backR);
+    Serial.print("Back left: ");
+    Serial.println(backL);
   }
-}
